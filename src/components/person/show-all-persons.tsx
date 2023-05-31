@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Person } from "../../models/Person";
 import DetailsPerson from "./details-person";
+import { useNavigate } from "react-router-dom";
 
 export function ShowAllPersons() {
+	const navigate = useNavigate();
 	const [persons, setPersons] = useState([]);
-	const [personDetails, setPersonDetails] = useState<Person | null>(null);
 
 	useEffect(() => {
 		fetch("http://localhost:5283/api/people")
@@ -14,8 +15,6 @@ export function ShowAllPersons() {
 
 	return (
 		<>
-			{personDetails !== null && <DetailsPerson person={personDetails} />}
-
 			<h1>Persons</h1>
 			<p>Here is a list of all persons</p>
 			<table>
@@ -32,7 +31,7 @@ export function ShowAllPersons() {
 							<td>{i + 1}</td>
 							<td>{person.name}</td>
 							<td>
-								<button onClick={() => setPersonDetails(person)}>Details</button> |{" "}
+								<button onClick={() => navigate(`/persons/details/${person.id}`)}>Details</button> |{" "}
 								<button>Edit</button> | <button>Delete</button>
 							</td>
 						</tr>

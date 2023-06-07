@@ -2,6 +2,19 @@ import { useEffect, useState } from "react";
 import { Person } from "../../models/Person";
 import DetailsPerson from "./details-person";
 import { useNavigate } from "react-router-dom";
+import {
+	Button,
+	Container,
+	IconButton,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export function ShowAllPersons() {
 	const navigate = useNavigate();
@@ -14,30 +27,35 @@ export function ShowAllPersons() {
 	}, []);
 
 	return (
-		<>
+		<Container maxWidth="md">
 			<h1>Persons</h1>
-			<p>Here is a list of all persons</p>
-			<table>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Name</th>
-						<th>Operations</th>
-					</tr>
-				</thead>
-				<tbody>
-					{persons.map((person: Person, i: number) => (
-						<tr key={person.id}>
-							<td>{i + 1}</td>
-							<td>{person.name}</td>
-							<td>
-								<button onClick={() => navigate(`/persons/details/${person.id}`)}>Details</button> |{" "}
-								<button>Edit</button> | <button>Delete</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</>
+			<Button variant="contained">Add person</Button> <p>Here is a list of all persons</p>
+			<TableContainer component={Paper}>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>#</TableCell>
+							<TableCell>Name</TableCell>
+							<TableCell>Operations</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{persons.map((person: Person, i: number) => (
+							<TableRow key={person.id}>
+								<TableCell>{i + 1}</TableCell>
+								<TableCell>{person.name}</TableCell>
+								<TableCell>
+									<Button onClick={() => navigate(`/persons/details/${person.id}`)}>Details</Button>{" "}
+									| <Button>Edit</Button> |{" "}
+									<IconButton color="primary">
+										<DeleteIcon />
+									</IconButton>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</Container>
 	);
 }
